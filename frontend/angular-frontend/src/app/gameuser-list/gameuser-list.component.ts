@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Gameuser } from '../gameuser';
 import { GameuserService } from '../gameuser.service';
-
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-gameuser-list',
   templateUrl: './gameuser-list.component.html',
@@ -9,33 +9,13 @@ import { GameuserService } from '../gameuser.service';
 })
 export class GameuserListComponent implements OnInit{
 
-  gameusers?: Gameuser[]; 
+  gameusers!: Gameuser[]; 
 
-  constructor(private gameuserService:GameuserService){}
+  constructor(private gameuserService:GameuserService
+    ,private router: Router){}
 
   ngOnInit(): void {
-    /*
-    this.gameusers=[{
-      "id":1,
-      "firstName":"firstName1",
-      "lastName":"lastName1",
-      "emailAddress":"emailaddress1",
-      "activeStatus":true,
-      "username":"username1",
-      "password":"password1"
-    },
-    {
-      "id":2,
-      "firstName":"firstName2",
-      "lastName":"lastName2",
-      "emailAddress":"emailaddress2",
-      "activeStatus":false,
-      "username":"username2",
-      "password":"password2"
-    }
-    ];
-    */
-    this.getGameusers();
+   this.getGameusers();
   }
 
   private getGameusers(){
@@ -44,6 +24,36 @@ export class GameuserListComponent implements OnInit{
         this.gameusers=data;
       }
       );
+  }
+
+  updateGameuser(id: number){
+    this.router.navigate(['update-gameuser',id]);
+  }
+
+  deleteGameuser(id:number){
+    this.gameuserService.deleteGameuser(id).subscribe(data=>{
+      console.log(data);
+      this.getGameusers();
+    })
+  }
+
+  confirmDelete(id: number) {
+    if (confirm("Are you sure you want to delete this game user?")) {
+      this.deleteGameuser(id);
+    }
+  }
+
+  gameuserDetails(id:number){
+    this.router.navigate(['gameuser-details',id]);
+  }
+
+  mySort(isAsc:boolean){
+    if(isAsc){
+      this.gameusers.sort((a,b)=>(a.firstName>b.firstName) ? 1: ((b.firstName>a.firstName) ? -1 : 0));
+    } else{
+      this.gameusers.sort((a,b)=>(a.firstName>b.firstName) ? -1: ((b.firstName>a.firstName) ? 1 : 0));
+    }
+
   }
 
 }

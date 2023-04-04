@@ -1,12 +1,15 @@
 <h2> GameUser List</h2>
+<button (click)="mySort(true)">ASC</button>
+<button (click)="mySort(false)">DESC</button>
 <table class="table table-striped">
     <thead>
         <th> First Name</th>
         <th> Last Name</th>
         <th> Email Address</th>
         <th> Active Status</th>
-        <th> Username</th>
-        <th> Password</th>
+        <!-- <th> Username</th>
+        <th> Password</th> -->
+        <th> Actions </th>
     </thead>
     <tbody>
         <tr *ngFor="let gameuser of gameusers">
@@ -14,8 +17,14 @@
             <td>{{gameuser.lastName}}</td>
             <td>{{gameuser.emailAddress}}</td>
             <td>{{gameuser.activeStatus}}</td>
-            <td>{{gameuser.username}}</td>
-            <td>{{gameuser.password}}</td>
+            <!-- <td>{{gameuser.username}}</td>
+            <td>{{gameuser.password}}</td> -->
+            <td>
+                <button (click)="updateGameuser(gameuser.id)" class="btn btn-info" > Update</button>
+                <button (click)="confirmDelete(gameuser.id)" class="btn btn-danger" style="margin-left: 10px"> Delete</button>
+                <button (click)="gameuserDetails(gameuser.id)" class="btn btn-info" style="margin-left: 10px"> Details</button>
+
+            </td>
         </tr>    
     </tbody>
 </table>
